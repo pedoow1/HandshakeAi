@@ -113,6 +113,7 @@ body {
   z-index: 999;
   padding: 24px;
 }
+.lightbox[hidden] { display: none; }
 .lightbox img {
   max-width: 100%;
   max-height: 100%;

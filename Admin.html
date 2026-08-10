@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify a Client Code — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  main { max-width: 480px; padding-top: 60px; }
+  .admin-note { font-size: 13px; color: var(--muted); margin-bottom: 24px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<header class="hero" style="padding-bottom:0;">
+  <h1>Verify a Client Code</h1>
+</header>
+<main>
+  <p class="admin-note">Enter the email shown on the Airtm transfer notification, and compare the resulting code with what the client sent you.</p>
+  <section class="ticket-card">
+    <div class="ticket-body" style="flex:1; padding: 28px;">
+      <form id="verifyForm" autocomplete="off">
+        <label for="adminKey">Admin key</label>
+        <input type="password" id="adminKey" placeholder="ADMIN_KEY" required>
+        <label for="email" style="margin-top:10px;">Client email</label>
+        <input type="email" id="email" placeholder="client@example.com" required>
+        <button type="submit" id="submitBtn" style="margin-top:14px;">
+          <span class="btn-text">Get code</span>
+        </button>
+      </form>
+      <div id="result" class="result-ticket" hidden>
+        <div class="result-label">Code the client should have sent you</div>
+        <div class="result-code" id="codeOutput">— — — — — — — —</div>
+      </div>
+      <div id="errorBox" class="error-box" hidden></div>
+    </div>
+  </section>
+</main>
+<script>
+  const form = document.getElementById('verifyForm');
+  const resultBox = document.getElementById('result');
+  const codeOutput = document.getElementById('codeOutput');
+  const errorBox = document.getElementById('errorBox');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.hidden = true;
+    resultBox.hidden = true;
+    const adminKey = document.getElementById('adminKey').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    try {
+      const res = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, adminKey })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error');
+      codeOutput.textContent = data.code;
+      resultBox.hidden = false;
+    } catch (err) {
+      errorBox.textContent = err.message;
+      errorBox.hidden = false;
+    }
+  });
+</script>
+</body>
+</html>

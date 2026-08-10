@@ -5,22 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verify a Client Code — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  main { max-width: 480px; padding-top: 60px; }
-  .admin-note { font-size: 13px; color: var(--muted); margin-bottom: 24px; text-align: center; }
+  main { max-width: 460px; padding-top: 20px; }
+  .admin-note { font-size: 13.5px; color: var(--muted); margin-bottom: 20px; text-align: center; }
 </style>
 </head>
 <body>
-<div class="noise"></div>
 <header class="hero" style="padding-bottom:0;">
   <h1>Verify a Client Code</h1>
 </header>
 <main>
   <p class="admin-note">Enter the email shown on the Airtm transfer notification, and compare the resulting code with what the client sent you.</p>
-  <section class="ticket-card">
-    <div class="ticket-body" style="flex:1; padding: 28px;">
+  <section class="step-content" style="margin-bottom:0;">
       <form id="verifyForm" autocomplete="off">
         <label for="adminKey">Admin key</label>
         <input type="password" id="adminKey" placeholder="ADMIN_KEY" required>
@@ -30,12 +28,11 @@
           <span class="btn-text">Get code</span>
         </button>
       </form>
-      <div id="result" class="result-ticket" hidden>
+      <div id="result" class="result-box" hidden>
         <div class="result-label">Code the client should have sent you</div>
         <div class="result-code" id="codeOutput">— — — — — — — —</div>
       </div>
       <div id="errorBox" class="error-box" hidden></div>
-    </div>
   </section>
 </main>
 <script>

@@ -13,12 +13,19 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 // Lightbox for proof screenshots — tap a thumbnail to view full-size
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
+const lightboxError = document.getElementById('lightboxError');
 if (lightbox) {
   document.querySelectorAll('.proof-thumb').forEach(img => {
     img.addEventListener('click', () => {
+      lightboxError.hidden = true;
+      lightboxImg.hidden = false;
       lightboxImg.src = img.src;
       lightbox.hidden = false;
     });
+  });
+  lightboxImg.addEventListener('error', () => {
+    lightboxImg.hidden = true;
+    lightboxError.hidden = false;
   });
   const closeLightbox = () => { lightbox.hidden = true; lightboxImg.src = ''; };
   lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);

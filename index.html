@@ -3,52 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Invitation to Handshake.ai Onboarding</title>
+<title>Handshake.ai Onboarding</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="noise"></div>
-
 <header class="hero">
-  <div class="eyebrow">Limited Invitation &middot; Handshake.ai Onboarding</div>
-  <h1>Start earning on <span>Handshake.ai</span> with a proven roadmap</h1>
+  <div class="eyebrow">Handshake.ai Onboarding</div>
+  <h1>Start earning on Handshake.ai with a proven roadmap</h1>
   <p class="sub">I'll walk you through building a profile and CV that gets accepted into paid projects — step by step, fully within platform guidelines.</p>
 </header>
 
 <main>
 
-  <section class="ticket-card" id="step1">
-    <div class="ticket-stub">
-      <div class="stub-label">STEP</div>
-      <div class="stub-number">01</div>
+  <section class="step-card" id="step1">
+    <div class="step-marker">
+      <span class="step-num">1</span>
+      <span class="step-line"></span>
     </div>
-    <div class="ticket-body">
+    <div class="step-content">
       <h2>Send payment via Airtm</h2>
       <p class="muted">Transfer the agreed amount to my Airtm account, using the same email you'll enter in the next step.</p>
-      <div class="detail-row">
-        <span class="detail-key">Airtm recipient</span>
-        <span class="detail-val" id="airtmHandle">AIRTM_EMAIL_HERE</span>
-        <button class="copy-btn" data-copy="#airtmHandle">Copy</button>
+      <div class="detail-card">
+        <div class="detail-row">
+          <span class="detail-key">Airtm recipient</span>
+          <div class="detail-val-group">
+            <span class="detail-val" id="airtmHandle">abdalahkotp31@gmail.com</span>
+            <button class="copy-btn" data-copy="#airtmHandle">Copy</button>
+          </div>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Amount</span>
+          <span class="detail-val">$10</span>
+        </div>
       </div>
-      <div class="detail-row">
-        <span class="detail-key">Amount</span>
-        <span class="detail-val">AMOUNT_HERE</span>
-      </div>
-      <p class="note">⚠️ Use the real email registered on your Airtm account — the same one you'll enter in the next step.</p>
+      <p class="note">Use the real email registered on your Airtm account — the same one you'll enter in the next step.</p>
     </div>
   </section>
 
-  <div class="connector"></div>
-
-  <section class="ticket-card" id="step2">
-    <div class="ticket-stub">
-      <div class="stub-label">STEP</div>
-      <div class="stub-number">02</div>
+  <section class="step-card" id="step2">
+    <div class="step-marker">
+      <span class="step-num">2</span>
+      <span class="step-line"></span>
     </div>
-    <div class="ticket-body">
+    <div class="step-content">
       <h2>Get your verification code</h2>
       <p class="muted">Enter the same email you sent the payment from, and you'll get a unique code tied to it.</p>
 
@@ -61,25 +61,21 @@
         </button>
       </form>
 
-      <div id="result" class="result-ticket" hidden>
-        <div class="perforation"></div>
+      <div id="result" class="result-box" hidden>
         <div class="result-label">Your verification code</div>
         <div class="result-code" id="codeOutput">— — — — — — — —</div>
-        <div class="result-hint">📸 Screenshot this code and send it to me privately along with proof of transfer</div>
+        <div class="result-hint">Screenshot this code and send it to me privately along with proof of transfer</div>
       </div>
 
       <div id="errorBox" class="error-box" hidden></div>
     </div>
   </section>
 
-  <div class="connector"></div>
-
-  <section class="ticket-card" id="step3">
-    <div class="ticket-stub">
-      <div class="stub-label">STEP</div>
-      <div class="stub-number">03</div>
+  <section class="step-card" id="step3">
+    <div class="step-marker">
+      <span class="step-num">3</span>
     </div>
-    <div class="ticket-body">
+    <div class="step-content">
       <h2>Send me the code</h2>
       <p class="muted">Once you send the code and transfer proof, I'll start walking you through setting up your Handshake.ai account — profile, CV, and how to get accepted into projects.</p>
       <a class="dm-btn" id="dmLink" href="CONTACT_LINK_HERE" target="_blank" rel="noopener">Message me now →</a>

@@ -33,10 +33,11 @@
         </video>
       </div>
       <div class="proof-images">
-        <img src="https://gmvveqkhyfcdsrcjtewi.supabase.co/storage/v1/object/public/Images/IMG_20260803_114639_357.jpg" alt="Active account screenshot 1" loading="lazy">
-        <img src="https://gmvveqkhyfcdsrcjtewi.supabase.co/storage/v1/object/public/Images/IMG_20260803_114656_091.jpg" alt="Active account screenshot 2" loading="lazy">
-        <img src="https://gmvveqkhyfcdsrcjtewi.supabase.co/storage/v1/object/public/Images/IMG_20260803_114706_650.jpg" alt="Active account screenshot 3" loading="lazy">
+        <img src="https://gmvveqkhyfcdsrcjtewi.supabase.co/storage/v1/object/public/Images/IMG_20260803_114639_357.jpg" alt="Active account screenshot 1" loading="lazy" class="proof-thumb">
+        <img src="https://gmvveqkhyfcdsrcjtewi.supabase.co/storage/v1/object/public/Images/IMG_20260803_114656_091.jpg" alt="Active account screenshot 2" loading="lazy" class="proof-thumb">
+        <img src="https://gmvveqkhyfcdsrcjtewi.supabase.co/storage/v1/object/public/Images/IMG_20260803_114706_650.jpg" alt="Active account screenshot 3" loading="lazy" class="proof-thumb">
       </div>
+      <p class="note" style="margin-top:8px;">Tap any screenshot to view it full-size.</p>
     </div>
   </section>
 
@@ -136,6 +137,11 @@
 <footer>
   <p>Your code is personal and tied to your email only — do not share it with anyone.</p>
 </footer>
+
+<div id="lightbox" class="lightbox" hidden>
+  <span class="lightbox-close">&times;</span>
+  <img id="lightboxImg" src="" alt="Full-size screenshot">
+</div>
 
 <script src="script.js"></script>
 </body>

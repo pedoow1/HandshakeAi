@@ -78,6 +78,28 @@ body {
 }
 .airtm-steps li { margin-bottom: 8px; }
 
+.proof-video video {
+  width: 100%;
+  border-radius: 10px;
+  background: #000;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.proof-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.proof-images img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
 .eyebrow {
   display: inline-block;
   font-size: 13px;

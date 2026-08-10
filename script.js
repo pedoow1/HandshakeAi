@@ -10,6 +10,21 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   });
 });
 
+// Lightbox for proof screenshots — tap a thumbnail to view full-size
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+if (lightbox) {
+  document.querySelectorAll('.proof-thumb').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightbox.hidden = false;
+    });
+  });
+  const closeLightbox = () => { lightbox.hidden = true; lightboxImg.src = ''; };
+  lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+}
+
 // Code generation form
 const form = document.getElementById('codeForm');
 const submitBtn = document.getElementById('submitBtn');

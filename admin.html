@@ -12,98 +12,176 @@
   .admin-note { font-size: 13.5px; color: var(--muted); margin-bottom: 20px; text-align: center; }
   .panel-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
   .panel-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .signout-link {
+    position: absolute; top: 20px; right: 24px;
+    font-size: 12.5px; font-weight: 600; color: var(--muted);
+    text-decoration: none; border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 14px;
+  }
+  .signout-link:hover { color: var(--error); border-color: var(--error); }
 </style>
 </head>
 <body>
-<header class="hero" style="padding-bottom:0;">
-  <h1>Admin</h1>
-</header>
-<main>
-  <p class="admin-note">Two ways to confirm a client: look up the code from their email, or look up their email + payment time from the code they sent you.</p>
 
-  <section class="step-content">
-    <div class="panel-title">Dashboard</div>
-    <div class="panel-sub">All clients who paid — search by email or filter by date. Leave filters empty to see everyone.</div>
-    <form id="dashForm" autocomplete="off">
-      <label for="adminKey0">Admin key</label>
-      <input type="password" id="adminKey0" placeholder="ADMIN_KEY" required>
-      <label for="search" style="margin-top:10px;">Search by email</label>
-      <input type="text" id="search" placeholder="optional">
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        <div style="flex:1;">
-          <label for="fromDate">From</label>
-          <input type="date" id="fromDate">
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <header class="hero" style="padding-bottom:0;">
+    <h1>Admin sign in</h1>
+  </header>
+  <main>
+    <section class="step-content">
+      <form id="loginForm" autocomplete="off">
+        <label for="loginKey">Admin key</label>
+        <input type="password" id="loginKey" placeholder="ADMIN_KEY" required>
+        <button type="submit" id="loginBtn" style="margin-top:14px;">
+          <span class="btn-text">Sign in</span>
+        </button>
+      </form>
+      <div id="loginError" class="error-box" hidden></div>
+    </section>
+  </main>
+</div>
+
+<!-- DASHBOARD (hidden until signed in) -->
+<div id="adminScreen" hidden>
+  <header class="hero" style="padding-bottom:0; position:relative;">
+    <a href="#" id="signOutLink" class="signout-link">Sign out</a>
+    <h1>Admin</h1>
+  </header>
+  <main>
+    <p class="admin-note">Look up a client by code or email, or search everyone in the dashboard below.</p>
+
+    <section class="step-content">
+      <div class="panel-title">Dashboard</div>
+      <div class="panel-sub">All clients who paid — search by email or filter by date. Leave filters empty to see everyone.</div>
+      <form id="dashForm" autocomplete="off">
+        <label for="search">Search by email</label>
+        <input type="text" id="search" placeholder="optional">
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <div style="flex:1;">
+            <label for="fromDate">From</label>
+            <input type="date" id="fromDate">
+          </div>
+          <div style="flex:1;">
+            <label for="toDate">To</label>
+            <input type="date" id="toDate">
+          </div>
         </div>
-        <div style="flex:1;">
-          <label for="toDate">To</label>
-          <input type="date" id="toDate">
-        </div>
+        <button type="submit" id="dashBtn" style="margin-top:14px;">
+          <span class="btn-text">Search</span>
+        </button>
+      </form>
+      <div id="dashSummary" class="result-box" hidden style="text-align:left;">
+        <div class="result-label" style="margin-bottom:4px;">Total clients: <strong id="totalClients">0</strong></div>
+        <div class="result-label">Total revenue: <strong id="totalRevenue">$0</strong></div>
       </div>
-      <button type="submit" id="dashBtn" style="margin-top:14px;">
-        <span class="btn-text">Search</span>
-      </button>
-    </form>
-    <div id="dashSummary" class="result-box" hidden style="text-align:left;">
-      <div class="result-label" style="margin-bottom:4px;">Total clients: <strong id="totalClients">0</strong></div>
-      <div class="result-label">Total revenue: <strong id="totalRevenue">$0</strong></div>
-    </div>
-    <div id="dashTableWrap" style="margin-top:14px; max-height:340px; overflow:auto;" hidden>
-      <table style="width:100%; border-collapse:collapse; font-size:13px;">
-        <thead>
-          <tr style="text-align:left; border-bottom:1px solid var(--border);">
-            <th style="padding:6px 4px;">Email</th>
-            <th style="padding:6px 4px;">Code</th>
-            <th style="padding:6px 4px;">Amount</th>
-            <th style="padding:6px 4px;">Date</th>
-          </tr>
-        </thead>
-        <tbody id="dashTableBody"></tbody>
-      </table>
-    </div>
-    <div id="dashError" class="error-box" hidden></div>
-  </section>
+      <div id="dashTableWrap" style="margin-top:14px; max-height:340px; overflow:auto;" hidden>
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+          <thead>
+            <tr style="text-align:left; border-bottom:1px solid var(--border);">
+              <th style="padding:6px 4px;">Email</th>
+              <th style="padding:6px 4px;">Code</th>
+              <th style="padding:6px 4px;">Amount</th>
+              <th style="padding:6px 4px;">Date</th>
+            </tr>
+          </thead>
+          <tbody id="dashTableBody"></tbody>
+        </table>
+      </div>
+      <div id="dashError" class="error-box" hidden></div>
+    </section>
 
-  <section class="step-content">
-    <div class="panel-title">Look up by code</div>
-    <div class="panel-sub">Paste the code the client sent you — get back the email and when they generated it.</div>
-    <form id="lookupForm" autocomplete="off">
-      <label for="adminKey1">Admin key</label>
-      <input type="password" id="adminKey1" placeholder="ADMIN_KEY" required>
-      <label for="code" style="margin-top:10px;">Code from client</label>
-      <input type="text" id="code" placeholder="A1B2C3D4" style="text-transform:uppercase;" required>
-      <button type="submit" id="lookupBtn" style="margin-top:14px;">
-        <span class="btn-text">Look up</span>
-      </button>
-    </form>
-    <div id="lookupResult" class="result-box" hidden>
-      <div class="result-label">Email tied to this code</div>
-      <div class="result-code" id="lookupEmail" style="font-size:16px;word-break:break-all;">—</div>
-      <div class="result-hint" id="lookupTime">—</div>
-    </div>
-    <div id="lookupError" class="error-box" hidden></div>
-  </section>
+    <section class="step-content">
+      <div class="panel-title">Look up by code</div>
+      <div class="panel-sub">Paste the code the client sent you — get back the email and when they generated it.</div>
+      <form id="lookupForm" autocomplete="off">
+        <label for="code">Code from client</label>
+        <input type="text" id="code" placeholder="A1B2C3D4" style="text-transform:uppercase;" required>
+        <button type="submit" id="lookupBtn" style="margin-top:14px;">
+          <span class="btn-text">Look up</span>
+        </button>
+      </form>
+      <div id="lookupResult" class="result-box" hidden>
+        <div class="result-label">Email tied to this code</div>
+        <div class="result-code" id="lookupEmail" style="font-size:16px;word-break:break-all;">—</div>
+        <div class="result-hint" id="lookupTime">—</div>
+      </div>
+      <div id="lookupError" class="error-box" hidden></div>
+    </section>
 
-  <section class="step-content">
-    <div class="panel-title">Look up by email</div>
-    <div class="panel-sub">Enter the email shown on the Airtm transfer notification, and compare the result with what the client sent you.</div>
-    <form id="verifyForm" autocomplete="off">
-      <label for="adminKey2">Admin key</label>
-      <input type="password" id="adminKey2" placeholder="ADMIN_KEY" required>
-      <label for="email" style="margin-top:10px;">Client email</label>
-      <input type="email" id="email" placeholder="client@example.com" required>
-      <button type="submit" id="submitBtn" style="margin-top:14px;">
-        <span class="btn-text">Get code</span>
-      </button>
-    </form>
-    <div id="result" class="result-box" hidden>
-      <div class="result-label">Code the client should have sent you</div>
-      <div class="result-code" id="codeOutput">— — — — — — — —</div>
-    </div>
-    <div id="errorBox" class="error-box" hidden></div>
-  </section>
-</main>
+    <section class="step-content">
+      <div class="panel-title">Look up by email</div>
+      <div class="panel-sub">Enter the email shown on the Airtm transfer notification, and compare the result with what the client sent you.</div>
+      <form id="verifyForm" autocomplete="off">
+        <label for="email">Client email</label>
+        <input type="email" id="email" placeholder="client@example.com" required>
+        <button type="submit" id="submitBtn" style="margin-top:14px;">
+          <span class="btn-text">Get code</span>
+        </button>
+      </form>
+      <div id="result" class="result-box" hidden>
+        <div class="result-label">Code the client should have sent you</div>
+        <div class="result-code" id="codeOutput">— — — — — — — —</div>
+      </div>
+      <div id="errorBox" class="error-box" hidden></div>
+    </section>
+  </main>
+</div>
+
 <script>
-  // Panel 0: dashboard — search + date filter + totals
+  const SESSION_KEY = 'handshake_admin_key';
+  const loginScreen = document.getElementById('loginScreen');
+  const adminScreen = document.getElementById('adminScreen');
+
+  function showAdmin() {
+    loginScreen.hidden = true;
+    adminScreen.hidden = false;
+  }
+  function showLogin() {
+    adminScreen.hidden = true;
+    loginScreen.hidden = false;
+  }
+  function getKey() {
+    return sessionStorage.getItem(SESSION_KEY);
+  }
+
+  // Auto sign-in if we already have a verified key this session
+  if (getKey()) {
+    showAdmin();
+  }
+
+  // --- Login ---
+  const loginForm = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginError.hidden = true;
+    const key = document.getElementById('loginKey').value.trim();
+
+    try {
+      const res = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminKey: key })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Wrong admin key.');
+      sessionStorage.setItem(SESSION_KEY, key);
+      showAdmin();
+    } catch (err) {
+      loginError.textContent = err.message;
+      loginError.hidden = false;
+    }
+  });
+
+  document.getElementById('signOutLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    sessionStorage.removeItem(SESSION_KEY);
+    showLogin();
+  });
+
+  // --- Dashboard ---
   const dashForm = document.getElementById('dashForm');
   const dashSummary = document.getElementById('dashSummary');
   const totalClients = document.getElementById('totalClients');
@@ -117,7 +195,6 @@
     dashError.hidden = true;
     dashSummary.hidden = true;
     dashTableWrap.hidden = true;
-    const adminKey = document.getElementById('adminKey0').value.trim();
     const search = document.getElementById('search').value.trim();
     const from = document.getElementById('fromDate').value;
     const to = document.getElementById('toDate').value;
@@ -126,7 +203,7 @@
       const res = await fetch('/api/list-submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ adminKey, search, from, to })
+        body: JSON.stringify({ adminKey: getKey(), search, from, to })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error');
@@ -150,7 +227,7 @@
     }
   });
 
-  // Panel 1: code -> email + time
+  // --- Look up by code ---
   const lookupForm = document.getElementById('lookupForm');
   const lookupResult = document.getElementById('lookupResult');
   const lookupEmail = document.getElementById('lookupEmail');
@@ -161,14 +238,13 @@
     e.preventDefault();
     lookupError.hidden = true;
     lookupResult.hidden = true;
-    const adminKey = document.getElementById('adminKey1').value.trim();
     const code = document.getElementById('code').value.trim();
 
     try {
       const res = await fetch('/api/lookup-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, adminKey })
+        body: JSON.stringify({ code, adminKey: getKey() })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error');
@@ -181,7 +257,7 @@
     }
   });
 
-  // Panel 2: email -> code
+  // --- Look up by email ---
   const form = document.getElementById('verifyForm');
   const resultBox = document.getElementById('result');
   const codeOutput = document.getElementById('codeOutput');
@@ -191,14 +267,13 @@
     e.preventDefault();
     errorBox.hidden = true;
     resultBox.hidden = true;
-    const adminKey = document.getElementById('adminKey2').value.trim();
     const email = document.getElementById('email').value.trim();
 
     try {
       const res = await fetch('/api/verify-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, adminKey })
+        body: JSON.stringify({ email, adminKey: getKey() })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error');
